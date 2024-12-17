@@ -1,4 +1,4 @@
-name: packerl_sap
+name: packerl_tcp_sack_bug
 channels:
   - conda-forge
   - pyg

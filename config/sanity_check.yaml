@@ -18,6 +18,13 @@ repetitions: 1  # number of times one set of parameters is run
 reps_per_job: 1  # number of repetitions in each job
 reps_in_parallel: 1  # number of repetitions in each job that are executed in parallel. set this to reps_per_job.
 
+params:
+  log_level: "function"
+  ns3_log_modules: ["TcpSocketBase", "TcpTxBuffer"]
+  use_tcp_sack: true
+  ep_length: 100
+  seed_offset: 20
+
 ---
 
 name: "sanity_check_cuda"
