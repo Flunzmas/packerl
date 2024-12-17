@@ -12,7 +12,7 @@ params:
 
 ---
 
-name: "sanity_check"
+name: "sanity_check1"
 
 repetitions: 1  # number of times one set of parameters is run
 reps_per_job: 1  # number of repetitions in each job
@@ -27,42 +27,16 @@ params:
 
 ---
 
-name: "sanity_check_cuda"
-
-params:
-  device: "cuda"
+name: "sanity_check2"
 
 repetitions: 1  # number of times one set of parameters is run
 reps_per_job: 1  # number of repetitions in each job
 reps_in_parallel: 1  # number of repetitions in each job that are executed in parallel. set this to reps_per_job.
 
----
-
-name: "sanity_check_parallel"
-
-list:
-  routing_mode: ["learned", "spf"]
-
-repetitions: 2  # number of times one set of parameters is run
-reps_per_job: 4  # number of repetitions in each job
-reps_in_parallel: 4  # number of repetitions in each job that are executed in parallel. set this to reps_per_job.
-
----
-
-name: "sanity_check_wandb_vis"
-
 params:
-  use_wandb: true
-  visualize_at_all: true
-  scenario_presets:
-    eval:
-      topology:
-        graph: random_XS
-
-list:
-  actor_critic_mode: ["next_hop_softmax", "link_weight_gaussian"]
-  actor_mode: ["fieldlines", "magnneto_slim"]
-
-repetitions: 2  # number of times one set of parameters is run
-reps_per_job: 4  # number of repetitions in each job
-reps_in_parallel: 4  # number of repetitions in each job that are executed in parallel. set this to reps_per_job.
+  log_level: "function"
+  ns3_log_modules: ["TcpSocketBase", "TcpTxBuffer"]
+  use_tcp_sack: true
+  ep_length: 100
+  seed_offset: 91
+  routing_mode: "random_link_weight"
