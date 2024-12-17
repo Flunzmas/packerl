@@ -24,7 +24,7 @@ To this end, I have created an ns-3 branch `packerl_tcp_sack_bug` where I've add
 1. Clone the repository, checkout the `packerl_tcp_sack_bug` branch and initialize the submodules.
 2. Create the conda environment that provides the required python packages, and activate it.
 5. Install the framework in debug mode to enable `NS_LOG` prints.
-6. Run the experiment that triggers the failed assertion.
+6. Run an experiment that triggers the failed assertion.
 
 **In Code:**
 
@@ -36,11 +36,12 @@ git submodule update --init --recursive
 conda env create -f environment.yaml
 conda activate packerl_tcp_sack_bug
 bash install.sh -d  # includes configuring and building of ns-3 in debug mode, with our custom contrib and scratch modules
-python main.py config/sanity_check.yaml -o -t -e sanity_check
+python main.py config/sanity_check.yaml -o -t -e sanity_check1  # or sanity_check2
 ```
 
 ### Additional Notes
 
 - If you've installed the framework wrongly, you can re-install it with `bash install.sh -rd`.
-- If you'd like to adjust the logging level and ns-3 modules logged for investigation, you can do so in the `config/sanity_check.yaml` file under the `sanity_check` experiment (params `log_level` and `ns3_log_modules` in lines 22 and 23).
-- The other params of the `sanity_check` experiment (episode length and random seed offset) are cherry-picked to trigger the bug. Feel free to adjust them, but the bug might take longer to appear or not appear at all.
+- `sanity_check1` runs an untrained routing policy that makes next-hop decisions per routing node for each possible destination node. This implies that routing paths are **not** necessarily coalescent, and that they may contain routing loops or other issues. On the other hand, `sanity_check2` evaluates a policy that uses random link weights to form coalescent shortest paths (that experiment might take one or two minutes to trigger the failed assertion). In general, I could reproduce this problem with routing strategies that change the routing frequently or occasionally. With "static" routing (e.g. shortest-path routing with static weights), I was not yet able to provoke this failure.
+- If you'd like to adjust the logging level and ns-3 modules logged for investigation, you can do so in the `config/sanity_check.yaml` file, in particular the experiments' params `log_level` and `ns3_log_modules`. The `log_level` options match ns-3's logging severity class tokens.
+- The other params of the `sanity_check` experiments (episode length and random seed offset) are cherry-picked to trigger the bug. Feel free to adjust them, but the bug might take longer to appear or not appear at all.
