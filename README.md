@@ -30,6 +30,7 @@ To this end, I have created an ns-3 branch `packerl_tcp_sack_bug` where I've add
 
 ``` bash
 git clone https://github.com/Flunzmas/packerl.git
+cd packerl/
 git checkout packerl_tcp_sack_bug
 git submodule update --init --recursive
 conda env create -f environment.yaml
